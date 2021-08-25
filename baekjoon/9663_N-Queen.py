@@ -13,8 +13,8 @@ def nQueen(index):
     # N까지 다 채우면 끝
     if (index == N):
         cnt += 1
-    else: # 유망한지 확인
-        for i in range(N):
+    else: 
+        for i in range(N): # 가로, 대각선, 역대각선에 다른 퀸이 있는지 확인
             if not col[i] and not slash[index-i] and not backSlash[index+i]:
                 col[i] = slash[index-i] = backSlash[index+i] = True
                 nQueen(index+1)
