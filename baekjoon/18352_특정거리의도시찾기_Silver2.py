@@ -1,33 +1,29 @@
-import heapq
+from collections import deque
 import sys
 input = sys.stdin.readline
 
 N, M, K, X = map(int, input().split())
 street = [[]for _ in range(N+1)]
-visited = [False]*(N+1)
+answer = [-1]*(N+1)
+answer[X] = 0
 
 for _ in range(M):
     x, y = map(int, input().split())
     street[x].append(y)
 
-dist = []
-heapq.heappush(dist, (0, X))
-num = []
+dist = deque([X])
+
 while dist:
-    cnt, start = heapq.heappop(dist)
-    if visited[start]: continue
+    cur = dist.popleft()
+    for end in street[cur]:
+        if answer[end] == -1:
+            answer[end] = answer[cur] + 1
+            dist.append(end)
 
-    if cnt == K:
-        heapq.heappush(num, start)
-
-    visited[start] = True
-    for end in street[start]:
-        if not visited[end]:
-            heapq.heappush(dist, (cnt+1, end))
-
-if len(num) > 0:
-    for i in num:
-        print(i)
-else:
+if K not in answer:
     print(-1)
+else:
+    for i in range(N+1):
+        if answer[i] == K:
+            print(i)
 
