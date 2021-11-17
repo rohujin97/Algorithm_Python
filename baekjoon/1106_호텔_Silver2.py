@@ -1,25 +1,19 @@
 import sys
-sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
 
-INF = 100*100
-dp = [0]*(INF+1)
-
+INF = 987654321
 C, N = map(int, input().split())
-cost = [0]*21
-person = [0]*21
-maxP = 0
+dp = [INF]*(C+101)
+dp[0] = 0
 
 for i in range(N):
-    a, b = map(int, input().split())
-    cost[i] = a
-    person[i] = b
+    cost, person = map(int, input().split())
+    for j in range(person, C+101):
+        tmp = dp[j-person]
+        if tmp != INF:
+            dp[j] = min(dp[j], cost + tmp)
 
-for i in range(1, N+1):
-    for j in range(cost[i], INF+1):
-        dp[j] = dp[j-cost[i]] + person[i] if dp[j] < dp[j - cost[i]] + person[i] else dp[j]
-
-for i in range(1, INF+1):
-    if dp[i] >= C:
-        print(i)
-        break
+result = INF
+for i in range(C, C+101):
+    result = min(result, dp[i])
+print(result)
