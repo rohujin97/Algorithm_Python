@@ -1,4 +1,3 @@
-from itertools import permutations, combinations_with_replacement
 import sys
 input = sys.stdin.readline
 
@@ -7,12 +6,13 @@ chicken = [list(map(int, input().split())) for _ in range(N)]
 num = [i for i in range(M)]
 
 maxC = 0
-for k in range(1, 4):
-    for i in permutations(num, k):
-        for ch in combinations_with_replacement(i, N):
-            like = 0
-            for j in range(N):
-                like += chicken[j][ch[j]]
-            maxC = max(maxC, like)
+for i in range(M):
+    for j in range(i+1, M):
+        for k in range(j+1, M):
+            sumC = 0
+            for n in range(N):
+                sumC += max(chicken[n][i], max(chicken[n][j], chicken[n][k]))
+            maxC = sumC if maxC < sumC else maxC
+
 print(maxC)
 
