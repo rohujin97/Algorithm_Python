@@ -22,6 +22,7 @@ for i in range(N):
     words[i] = word.rstrip()
 
 result = []
+
 for i in range(1 << N):
     new_word = ''
     sum_coin = 0
