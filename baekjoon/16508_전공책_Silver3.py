@@ -1,5 +1,4 @@
 import sys
-from itertools import combinations
 input = sys.stdin.readline
 
 def find(want, word, coin):
@@ -23,15 +22,14 @@ for i in range(N):
     words[i] = word.rstrip()
 
 result = []
-num = [i for i in range(N)]
-for i in range(1, N+1):
-    for comb in combinations(num, i):
-        new_word = ''
-        sum_coin = 0
-        for c in comb:
-            new_word += words[c]
-            sum_coin += coins[c]
-        result.append(find(T, new_word, sum_coin))
+for i in range(1 << N):
+    new_word = ''
+    sum_coin = 0
+    for j in range(N):
+        if (i & 1 << j) != 0:
+            new_word += words[j]
+            sum_coin += coins[j]
+    result.append(find(T, new_word, sum_coin))
 
 minC = min(result)
 if minC == 987654321:
